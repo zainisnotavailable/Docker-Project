@@ -1,0 +1,48 @@
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:latest
+    container_name: nodevault-mongodb
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=nodevault
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - nodevault-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/nodevault --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NodeVault Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodevault:latest
+    container_name: nodevault-backend
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/nodevault
+      - NODE_ENV=production
+    networks:
+      - nodevault-network
+    stdin_open: true
+    tty: true
+
+# Custom Bridge Network
+networks:
+  nodevault-network:
+    driver: bridge
+    name: nodevault-compose-network
+
+# Persistent Volume for MongoDB
+volumes:
+  mongodb-data:
+    driver: local
+    name: nodevault-mongodb-data

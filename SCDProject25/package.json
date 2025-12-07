@@ -1,0 +1,17 @@
+{
+  "name": "nodevault",
+  "version": "2.0.0",
+  "description": "NodeVault - A CLI-based CRUD application with MongoDB",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "node main.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "mongoose": "^8.0.0"
+  },
+  "keywords": ["nodejs", "mongodb", "crud", "cli"],
+  "author": "",
+  "license": "ISC"
+}

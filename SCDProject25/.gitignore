@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Export files
+export.txt
+
+# Backups (optional - you may want to keep these)
+# backups/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
