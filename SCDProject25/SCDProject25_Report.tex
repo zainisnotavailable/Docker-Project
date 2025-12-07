@@ -1,0 +1,1640 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+
+% Page geometry
+\geometry{margin=1in}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+% Listings setup for code blocks
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b,
+    backgroundcolor=\color{gray!10}
+}
+
+% Define languages
+\lstdefinelanguage{JavaScript}{
+    keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with, const, let, class, export, extends, import, super, true, false, null},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]',
+    morestring=[b]",
+    sensitive=true
+}
+
+\lstdefinelanguage{dockerfile}{
+    keywords={FROM, RUN, CMD, LABEL, MAINTAINER, EXPOSE, ENV, ADD, COPY, ENTRYPOINT, VOLUME, USER, WORKDIR, ARG, ONBUILD, STOPSIGNAL, HEALTHCHECK, SHELL},
+    sensitive=true,
+    morecomment=[l]{\#},
+    morestring=[b]"
+}
+
+\lstdefinelanguage{yaml}{
+    keywords={true,false,null,y,n},
+    sensitive=false,
+    morecomment=[l]{\#},
+    morestring=[b]',
+    morestring=[b]"
+}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+% Custom Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\textbf{SCD Project 25}\\[0.5cm]}
+    {\LARGE\textbf{Docker Deployment Report}\\[2cm]}
+    
+    \vfill
+    
+    {\Large\textbf{Submitted By:}\\[0.5cm]}
+    {\large Zain Ali Khan\\[0.3cm]}
+    {\large 22i-2624\\[0.3cm]}
+    {\large BS Software Engineering\\[0.3cm]}
+    {\large Batch 22\\[2cm]}
+    
+    {\Large\textbf{Institution:}\\[0.5cm]}
+    {\large FAST NUCES Islamabad\\[2cm]}
+    
+    {\large December 7, 2025}
+    
+    \vfill
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Part 3: Building Features into a Provided Project}
+
+\subsection{Step 1: Clone the Repository}
+
+\subsubsection{Commands Executed:}
+
+\begin{lstlisting}[language=bash]
+# Create working directory
+mkdir -p ~/scd-project
+cd ~/scd-project
+
+# Clone the repository
+git clone https://github.com/LaibaImran1500/SCDProject25.git
+
+# Navigate to the project
+cd SCDProject25
+
+# View project structure
+ls -la
+\end{lstlisting}
+
+\textbf{SCREENSHOT 1: Repository Cloned}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image.png}
+\caption{Repository Cloned}
+\end{figure}
+
+\subsection{Step 2: Examine Project Structure}
+
+\begin{lstlisting}[language=bash]
+# View project structure
+ls -la
+
+# View all files recursively
+find . -type f -name "*.js" -o -name "*.json" | head -20
+\end{lstlisting}
+
+\textbf{Project Structure:}
+\begin{lstlisting}
+SCDProject25/
++-- main.js              # Main application entry point
++-- data/
+|   +-- vault.json       # In-memory database (JSON file)
++-- db/
+|   +-- index.js         # Database operations (CRUD)
+|   +-- file.js          # File read/write operations
+|   +-- record.js        # Record validation and ID generation
++-- events/
+    +-- index.js         # Event emitter
+    +-- logger.js        # Event logging
+\end{lstlisting}
+
+\textbf{Application Overview:}
+\begin{itemize}
+    \item This is a NodeVault application - a CLI-based CRUD application
+    \item Uses an in-memory JSON file database (\texttt{data/vault.json})
+    \item Has event-driven logging for record operations
+    \item Current menu options: Add, List, Update, Delete, Exit
+\end{itemize}
+
+\subsection{Step 3: Run the Application Locally}
+
+\begin{lstlisting}[language=bash]
+# Run the application
+node main.js
+\end{lstlisting}
+
+\textbf{Current Menu:}
+\begin{lstlisting}
+===== NodeVault =====
+1. Add Record
+2. List Records
+3. Update Record
+4. Delete Record
+5. Exit
+=====================
+\end{lstlisting}
+
+\textbf{SCREENSHOT 2: Application Running Locally}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-1.png}
+\caption{Application Running Locally}
+\end{figure}
+
+\subsection{Step 4: Create a Feature Branch}
+
+Before making any modifications, we create a new branch from the main branch. All changes will be made in this feature branch.
+
+\subsubsection{Commands Executed:}
+
+\begin{lstlisting}[language=bash]
+# Navigate to project directory
+cd ~/scd-project/SCDProject25
+
+# Check current branch
+git branch
+
+# Create and switch to feature branch
+git checkout -b feature/enhancements
+
+# Verify branch switch
+git branch
+\end{lstlisting}
+
+\textbf{SCREENSHOT 3: Feature Branch Created}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-2.png}
+\caption{Feature Branch Created}
+\end{figure}
+
+\subsection{Git Versioning Strategy}
+
+For every major change, we will create a version tag:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Feature} & \textbf{Version Tag} & \textbf{Command} \\
+\hline
+Search Functionality & v1.0 & \texttt{git tag -a v1.0 -m "Added search functionality"} \\
+\hline
+Sorting Capability & v1.1 & \texttt{git tag -a v1.1 -m "Added sorting capability"} \\
+\hline
+Export to Text File & v1.2 & \texttt{git tag -a v1.2 -m "Added export functionality"} \\
+\hline
+Automatic Backup & v1.3 & \texttt{git tag -a v1.3 -m "Added automatic backup"} \\
+\hline
+Data Statistics & v1.4 & \texttt{git tag -a v1.4 -m "Added vault statistics"} \\
+\hline
+MongoDB Setup & v1.5 & \texttt{git tag -a v1.5 -m "MongoDB integration"} \\
+\hline
+Env File Setup & v2.0 & \texttt{git tag -a v2.0 -m "Environment variables setup"} \\
+\hline
+\end{tabular}
+\caption{Git Versioning Strategy}
+\end{table}
+
+\section{Feature Implementations}
+
+\subsection{Feature 1: Search Functionality}
+
+\textbf{Description:} Allows users to search for existing records by name or ID (case-insensitive).
+
+\textbf{Implementation:}
+
+\begin{lstlisting}[language=JavaScript]
+// Function to search records (case-insensitive)
+function searchRecords(keyword) {
+  const records = db.listRecords();
+  const searchTerm = keyword.toLowerCase();
+  
+  return records.filter(r => 
+    r.name.toLowerCase().includes(searchTerm) || 
+    r.id.toString().includes(searchTerm) ||
+    (r.value && r.value.toLowerCase().includes(searchTerm))
+  );
+}
+\end{lstlisting}
+
+\textbf{Menu Option Added:} Option 5 - ``Search Records''
+
+\textbf{SCREENSHOT 4: Search Functionality}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-4.png}
+\caption{Search Functionality}
+\end{figure}
+
+\subsection{Feature 2: Sorting Capability}
+
+\textbf{Description:} Allows users to sort records by Name or Creation Date in Ascending or Descending order.
+
+\textbf{Implementation:}
+
+\begin{lstlisting}[language=JavaScript]
+// Function to sort records
+function sortRecords(field, order) {
+  const records = [...db.listRecords()]; // Clone to avoid modifying original
+  
+  records.sort((a, b) => {
+    let valA, valB;
+    
+    if (field === 'name') {
+      valA = a.name.toLowerCase();
+      valB = b.name.toLowerCase();
+    } else if (field === 'date' || field === 'id') {
+      valA = a.id; // ID is timestamp-based
+      valB = b.id;
+    }
+    
+    if (order === 'asc') {
+      return valA > valB ? 1 : valA < valB ? -1 : 0;
+    } else {
+      return valA < valB ? 1 : valA > valB ? -1 : 0;
+    }
+  });
+  
+  return records;
+}
+\end{lstlisting}
+
+\textbf{Menu Option Added:} Option 6 - ``Sort Records''
+
+\textbf{Expected Output:}
+\begin{lstlisting}
+Choose field to sort by: Name
+Choose order: Ascending
+Sorted Records:
+1. ID: 104 | Name: Adeel
+2. ID: 110 | Name: Bilal
+3. ID: 108 | Name: Zain
+\end{lstlisting}
+
+\textbf{SCREENSHOT 5: Sorting Capability}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-3.png}
+\caption{Sorting Capability}
+\end{figure}
+
+\subsection{Feature 3: Export Vault Data to Text File}
+
+\textbf{Description:} Exports all records to a human-readable export.txt file.
+
+\textbf{Implementation:}
+
+\begin{lstlisting}[language=JavaScript]
+// Function to export data to text file
+function exportData() {
+  const records = db.listRecords();
+  const now = new Date();
+  const dateStr = now.toISOString().replace('T', ' ').slice(0, 19);
+  
+  let content = `========================================\n`;
+  content += `        NODEVAULT DATA EXPORT\n`;
+  content += `========================================\n\n`;
+  content += `Export Date/Time: ${dateStr}\n`;
+  content += `Total Records: ${records.length}\n`;
+  content += `File Name: export.txt\n`;
+  // ... rest of formatting
+  
+  const exportPath = path.join(__dirname, 'export.txt');
+  fs.writeFileSync(exportPath, content);
+  return exportPath;
+}
+\end{lstlisting}
+
+\textbf{Menu Option Added:} Option 7 - ``Export Data''
+
+\textbf{SCREENSHOT 6: Export Functionality}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-5.png}
+\caption{Export Functionality - Part 1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-6.png}
+\caption{Export Functionality - Part 2}
+\end{figure}
+
+\subsection{Feature 4: Automatic Backup System}
+
+\textbf{Description:} Automatically creates a backup whenever a record is added or deleted.
+
+\textbf{Implementation:}
+
+\begin{lstlisting}[language=JavaScript]
+// Backup directory
+const backupDir = path.join(__dirname, 'backups');
+if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir);
+
+// Function to create automatic backup
+function createBackup() {
+  const now = new Date();
+  const timestamp = now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  const backupFileName = `backup_${timestamp}.json`;
+  const backupPath = path.join(backupDir, backupFileName);
+  
+  const records = db.listRecords();
+  fs.writeFileSync(backupPath, JSON.stringify(records, null, 2));
+  console.log(`Backup created: ${backupFileName}`);
+}
+\end{lstlisting}
+
+\textbf{Backup Location:} \texttt{/backups/backup\_YYYY-MM-DD\_HH-MM-SS.json}
+
+\textbf{SCREENSHOT 7: Automatic Backup}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-7.png}
+\caption{Automatic Backup - Part 1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-8.png}
+\caption{Automatic Backup - Part 2}
+\end{figure}
+
+\subsection{Feature 5: Display Data Statistics}
+
+\textbf{Description:} Displays useful statistics about the vault data.
+
+\textbf{Implementation:}
+
+\begin{lstlisting}[language=JavaScript]
+// Function to display vault statistics
+function getVaultStatistics() {
+  const records = db.listRecords();
+  const vaultPath = path.join(__dirname, 'data', 'vault.json');
+  
+  const stats = {
+    totalRecords: records.length,
+    lastModified: 'N/A',
+    longestName: 'N/A',
+    longestNameLength: 0,
+    earliestRecord: 'N/A',
+    latestRecord: 'N/A'
+  };
+  
+  // Get file modification time
+  if (fs.existsSync(vaultPath)) {
+    const fileStat = fs.statSync(vaultPath);
+    stats.lastModified = fileStat.mtime.toISOString().replace('T', ' ').slice(0, 19);
+  }
+  
+  // ... calculate other statistics
+  
+  return stats;
+}
+\end{lstlisting}
+
+\textbf{Menu Option Added:} Option 8 - ``View Vault Statistics''
+
+\textbf{Expected Output:}
+\begin{lstlisting}
+Vault Statistics:
+--------------------------
+Total Records: 5
+Last Modified: 2025-11-04 15:20:32
+Longest Name: Muhammad Abdullah (18 characters)
+Earliest Record: 2025-09-12
+Latest Record: 2025-11-02
+--------------------------
+\end{lstlisting}
+
+\textbf{SCREENSHOT 8: Vault Statistics}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-9.png}
+\caption{Vault Statistics}
+\end{figure}
+
+\subsection{Updated Menu Structure}
+
+\begin{lstlisting}
+===== NodeVault =====
+1. Add Record
+2. List Records
+3. Update Record
+4. Delete Record
+5. Search Records      (NEW)
+6. Sort Records        (NEW)
+7. Export Data         (NEW)
+8. View Vault Statistics (NEW)
+9. Exit
+=====================
+\end{lstlisting}
+
+\subsection{Git Commit for Features 1-5}
+
+\begin{lstlisting}[language=bash]
+# Stage all changes
+git add .
+
+# Commit with message
+git commit -m "Added search, sort, export, backup, and statistics features"
+
+# Create version tag
+git tag -a v3.0 -m "Version 1.0: Core feature enhancements"
+\end{lstlisting}
+
+\subsection{Step 5: Merge Feature Branch into Main}
+
+\begin{lstlisting}[language=bash]
+# Switch to main/master branch
+git checkout master
+
+# Merge feature branch
+git merge feature/enhancements
+
+# Push to remote (if applicable)
+git push origin master
+
+# Push tags
+git push --tags
+\end{lstlisting}
+
+\textbf{SCREENSHOT 14: Merge to Main}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-10.png}
+\caption{Merge to Main}
+\end{figure}
+
+\section{Part 4: Containerize the Application}
+
+\subsection{Step 2: Create Dockerfile}
+
+\textbf{Dockerfile:}
+
+\begin{lstlisting}[language=dockerfile]
+# Use Node.js 18 Alpine as base image
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --production
+
+# Copy application source code
+COPY . .
+
+# Create backups directory
+RUN mkdir -p /app/backups
+
+# Set environment to production
+ENV NODE_ENV=production
+
+# Expose port (if needed for future HTTP API)
+EXPOSE 3000
+
+# Command to run the application
+CMD ["node", "main.js"]
+\end{lstlisting}
+
+\textbf{.dockerignore:}
+
+\begin{lstlisting}
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+*.md
+backups/*
+export.txt
+data/vault.json
+\end{lstlisting}
+
+\subsection{Step 3: Commit Dockerfile}
+
+\begin{lstlisting}[language=bash]
+# Stage changes
+git add .
+
+# Commit
+git commit -m "Added Dockerfile for containerization"
+
+# Create version tag
+git tag -a v3.0 -m "Version 3.0: Docker containerization"
+\end{lstlisting}
+
+\subsection{Step 4: Build Docker Image}
+
+\begin{lstlisting}[language=bash]
+# Build the Docker image
+docker build -t nodevault:v1 .
+
+# Verify image was created
+docker images | grep nodevault
+\end{lstlisting}
+
+\textbf{SCREENSHOT 17: Docker Build Process}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-11.png}
+\caption{Docker Build Process}
+\end{figure}
+
+\subsection{Step 5: Create Docker Network}
+
+\begin{lstlisting}[language=bash]
+# Create a network for the containers
+docker network create nodevault-network
+\end{lstlisting}
+
+\subsection{Step 6: Run MongoDB Container}
+
+\begin{lstlisting}[language=bash]
+# Run MongoDB container (if not already running)
+docker run -d \
+  --name mongodb \
+  --network nodevault-network \
+  -p 27017:27017 \
+  mongo:latest
+\end{lstlisting}
+
+\subsection{Step 7: Run NodeVault Container}
+
+\begin{lstlisting}[language=bash]
+# Run the NodeVault container
+docker run -it \
+  --name nodevault-app \
+  --network nodevault-network \
+  -e MONGODB_URI=mongodb://mongodb:27017/nodevault \
+  nodevault:v1
+\end{lstlisting}
+
+\textbf{SCREENSHOT 18: Container Running}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-12.png}
+\caption{Container Running}
+\end{figure}
+
+\subsection{Step 10: Publish to Docker Hub}
+
+\begin{lstlisting}[language=bash]
+# Login to Docker Hub
+docker login
+
+# Tag the image for Docker Hub
+# Replace YOUR_DOCKERHUB_USERNAME with your actual username
+docker tag nodevault:v1 zainalik157/nodevault:v1
+docker tag nodevault:v1 zainalik157/nodevault:latest
+
+# Push to Docker Hub
+docker push zainalik157/nodevault:v1
+docker push zainalik157/nodevault:latest
+\end{lstlisting}
+
+\textbf{SCREENSHOT 21: Docker Push}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-13.png}
+\caption{Docker Push}
+\end{figure}
+
+\textbf{Docker Hub URL:} \url{https://hub.docker.com/r/zainalik157/nodevault}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-14.png}
+\caption{Docker Hub Repository}
+\end{figure}
+
+\subsection{Step 11: Commit and Merge}
+
+\begin{lstlisting}[language=bash]
+# Commit any remaining changes
+git add .
+git commit -m "Finalized Docker containerization"
+
+# Switch to master and merge
+git checkout master
+git merge feature/containerization
+
+# Push tags
+git push --tags
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-15.png}
+\caption{Commit and Merge}
+\end{figure}
+
+\subsection{Summary - Part 4}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Task} & \textbf{Status} \\
+\hline
+Created containerization branch & \checkmark \\
+\hline
+Created Dockerfile & \checkmark \\
+\hline
+Created .dockerignore & \checkmark \\
+\hline
+Built Docker image & \checkmark \\
+\hline
+Tested with MongoDB container & \checkmark \\
+\hline
+Documented container logs & \checkmark \\
+\hline
+Documented container processes & \checkmark \\
+\hline
+Published to Docker Hub & \checkmark \\
+\hline
+\end{tabular}
+\caption{Part 4 Summary}
+\end{table}
+
+
+\section{Part 5: Deploy Containers Manually}
+
+\subsection{Overview}
+
+In this section, we deploy the containers manually using Docker CLI commands only (no YAML files). We will:
+\begin{enumerate}
+    \item Create a private Docker network
+    \item Attach volumes for persistent MongoDB data
+    \item Configure ports and environment variables
+    \item Demonstrate data persistence
+\end{enumerate}
+
+\subsection{Step 1: Clean Up Existing Containers}
+
+First, stop and remove any existing containers:
+
+\begin{lstlisting}[language=bash]
+# Stop and remove existing containers
+docker stop nodevault-app mongodb 2>/dev/null
+docker rm nodevault-app mongodb 2>/dev/null
+
+# Remove existing network
+docker network rm nodevault-network 2>/dev/null
+
+# Verify cleanup
+docker ps -a
+\end{lstlisting}
+
+\textbf{SCREENSHOT 22: Cleanup}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-16.png}
+\caption{Cleanup}
+\end{figure}
+
+\subsection{Step 2: Create Private Docker Network}
+
+\begin{lstlisting}[language=bash]
+# Create a private bridge network
+docker network create --driver bridge --internal nodevault-private-network
+
+# Verify network creation
+docker network ls
+
+# Inspect network details
+docker network inspect nodevault-private-network
+\end{lstlisting}
+
+\textbf{Explanation:}
+\begin{itemize}
+    \item \texttt{--driver bridge}: Creates a bridge network for container communication
+    \item \texttt{--internal}: Makes the network private (no external access)
+    \item Containers on this network can communicate with each other but are isolated from the host network
+\end{itemize}
+
+\textbf{SCREENSHOT 23: Private Network Created}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-18.png}
+\caption{Private Network Created}
+\end{figure}
+
+\subsection{Step 3: Create Docker Volume for MongoDB Persistence}
+
+\begin{lstlisting}[language=bash]
+# Create a named volume for MongoDB data
+docker volume create mongodb-data
+
+# Verify volume creation
+docker volume ls
+
+# Inspect volume
+docker volume inspect mongodb-data
+\end{lstlisting}
+
+\textbf{SCREENSHOT 24: Volume Created}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-17.png}
+\caption{Volume Created}
+\end{figure}
+
+\subsection{Step 4: Run MongoDB Container with Volume}
+
+\begin{lstlisting}[language=bash]
+# Run MongoDB with volume attached
+docker run -d \
+  --name mongodb \
+  --network nodevault-private-network \
+  -v mongodb-data:/data/db \
+  -e MONGO_INITDB_DATABASE=nodevault \
+  mongo:latest
+
+# Verify MongoDB is running
+docker ps
+
+# Check MongoDB logs
+docker logs mongodb
+\end{lstlisting}
+
+\textbf{Command Breakdown:}
+\begin{itemize}
+    \item \texttt{-d}: Run in detached mode (background)
+    \item \texttt{--name mongodb}: Container name
+    \item \texttt{--network nodevault-private-network}: Connect to private network
+    \item \texttt{-v mongodb-data:/data/db}: Mount volume for data persistence
+    \item \texttt{-e MONGO\_INITDB\_DATABASE=nodevault}: Set initial database name
+\end{itemize}
+
+\textbf{SCREENSHOT 25: MongoDB Container Running}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-19.png}
+\caption{MongoDB Container Running}
+\end{figure}
+
+\subsection{Step 5: Run NodeVault Backend Container}
+
+\begin{lstlisting}[language=bash]
+# Run NodeVault backend container
+docker run -it \
+  --name nodevault-app \
+  --network nodevault-private-network \
+  -e MONGODB_URI=mongodb://mongodb:27017/nodevault \
+  -e NODE_ENV=production \
+  nodevault:v1
+
+# For detached mode (background):
+docker run -d \
+  --name nodevault-app \
+  --network nodevault-private-network \
+  -e MONGODB_URI=mongodb://mongodb:27017/nodevault \
+  -e NODE_ENV=production \
+  nodevault:v1
+\end{lstlisting}
+
+\textbf{Command Breakdown:}
+\begin{itemize}
+    \item \texttt{-it}: Interactive mode with terminal
+    \item \texttt{--network nodevault-private-network}: Same network as MongoDB
+    \item \texttt{-e MONGODB\_URI=...}: Environment variable for database connection
+    \item \texttt{-e NODE\_ENV=production}: Set production environment
+\end{itemize}
+
+\textbf{SCREENSHOT 26: NodeVault Container Running}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-20.png}
+\caption{NodeVault Container Running}
+\end{figure}
+
+\subsection{Step 6: Verify Network Isolation (Proof of Private Network)}
+
+\begin{lstlisting}[language=bash]
+# Check that containers are on the private network
+docker network inspect nodevault-private-network
+
+# Try to access MongoDB from host (should fail with internal network)
+curl http://localhost:27017 2>&1 || echo "Cannot access - Network is private!"
+
+# Verify containers can communicate internally
+docker exec nodevault-app ping -c 2 mongodb
+\end{lstlisting}
+
+\textbf{SCREENSHOT 27: Network Isolation Proof}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-21.png}
+\caption{Network Isolation Proof}
+\end{figure}
+
+\subsection{Step 7.1: Add Data to the Application}
+
+\begin{lstlisting}[language=bash]
+# Run the app and add some records
+docker run -it \
+  --name nodevault-app \
+  --network nodevault-private-network \
+  -e MONGODB_URI=mongodb://mongodb:27017/nodevault \
+  nodevault:v1
+\end{lstlisting}
+
+Add 2-3 records using the menu (option 1).
+
+\subsection{Step 7.2: Destroy and Recreate Containers}
+
+\begin{lstlisting}[language=bash]
+# Stop and remove the app container
+docker stop nodevault-app
+docker rm nodevault-app
+
+# Stop and remove MongoDB container
+docker stop mongodb
+docker rm mongodb
+
+# Verify containers are removed
+docker ps -a
+\end{lstlisting}
+
+\textbf{SCREENSHOT 29: Containers Destroyed}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-22.png}
+\caption{Containers Destroyed}
+\end{figure}
+
+\subsection{Step 7.3: Relaunch Containers}
+
+\begin{lstlisting}[language=bash]
+# Relaunch MongoDB with same volume
+docker run -d \
+  --name mongodb \
+  --network nodevault-private-network \
+  -v mongodb-data:/data/db \
+  mongo:latest
+
+# Wait for MongoDB to start
+sleep 5
+
+# Relaunch NodeVault
+docker run -it \
+  --name nodevault-app \
+  --network nodevault-private-network \
+  -e MONGODB_URI=mongodb://mongodb:27017/nodevault \
+  nodevault:v1
+\end{lstlisting}
+
+List records (option 2) - \textbf{Data should still be there!}
+
+\textbf{SCREENSHOT 30: Data Persistence Verified}
+
+The records still exist after container restart.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-23.png}
+\caption{Data Persistence Verified}
+\end{figure}
+
+\subsection{Complete List of Docker Commands Used}
+
+\begin{lstlisting}[language=bash]
+# Network Commands
+docker network create --driver bridge --internal nodevault-private-network
+docker network ls
+docker network inspect nodevault-private-network
+docker network rm nodevault-private-network
+
+# Volume Commands
+docker volume create mongodb-data
+docker volume ls
+docker volume inspect mongodb-data
+
+# MongoDB Container Commands
+docker run -d \
+  --name mongodb \
+  --network nodevault-private-network \
+  -v mongodb-data:/data/db \
+  -e MONGO_INITDB_DATABASE=nodevault \
+  mongo:latest
+
+# NodeVault Container Commands
+docker run -it \
+  --name nodevault-app \
+  --network nodevault-private-network \
+  -e MONGODB_URI=mongodb://mongodb:27017/nodevault \
+  -e NODE_ENV=production \
+  nodevault:v1
+
+# Management Commands
+docker ps
+docker ps -a
+docker logs <container_name>
+docker stop <container_name>
+docker rm <container_name>
+docker exec <container_name> <command>
+\end{lstlisting}
+
+\subsection{Difficulties in Manual Container Setup}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Challenge} & \textbf{Description} \\
+\hline
+Network Configuration & Manually creating and managing networks requires understanding of Docker networking concepts. Easy to misconfigure. \\
+\hline
+Volume Management & Must remember to attach volumes correctly every time. Missing \texttt{-v} flag loses all data. \\
+\hline
+Environment Variables & Must pass all env vars via \texttt{-e} flags. Easy to forget or mistype. \\
+\hline
+Container Dependencies & Must start containers in correct order (MongoDB before app). No automatic dependency management. \\
+\hline
+Command Length & Commands become very long with all options. Error-prone when typing manually. \\
+\hline
+Reproducibility & Hard to reproduce exact same setup. Must remember all flags and options. \\
+\hline
+Port Conflicts & Must manually track which ports are in use. \\
+\hline
+No Health Checks & No automatic restart if container fails. \\
+\hline
+\end{tabular}
+\caption{Difficulties in Manual Container Setup}
+\end{table}
+
+\subsection{Time and Effort Analysis}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Task} & \textbf{Estimated Time} \\
+\hline
+Understanding Docker networking & 30-60 minutes \\
+\hline
+Creating and testing network & 15-20 minutes \\
+\hline
+Setting up volumes & 10-15 minutes \\
+\hline
+Configuring MongoDB container & 15-20 minutes \\
+\hline
+Configuring NodeVault container & 15-20 minutes \\
+\hline
+Testing and debugging & 30-45 minutes \\
+\hline
+Documenting commands & 20-30 minutes \\
+\hline
+\textbf{Total} & \textbf{2-3 hours} \\
+\hline
+\end{tabular}
+\caption{Time and Effort Analysis}
+\end{table}
+
+\textbf{Conclusion:} Manual container deployment is time-consuming, error-prone, and difficult to maintain. This highlights the need for Docker Compose (Part 6) to simplify the process.
+
+\section{Part 6: Simplifying with Docker Compose}
+
+\subsection{Overview}
+
+Docker Compose simplifies multi-container deployment by defining all services, networks, and volumes in a single YAML file. This eliminates the need for multiple long Docker CLI commands.
+
+\subsection{Step 1: Create docker-compose.yml}
+
+\begin{lstlisting}[language=yaml]
+version: '3.8'
+
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:latest
+    container_name: nodevault-mongodb
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=nodevault
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - nodevault-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/nodevault --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NodeVault Backend Service
+  backend:
+    image: nodevault:v1
+    container_name: nodevault-backend
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/nodevault
+      - NODE_ENV=production
+    env_file:
+      - .env
+    networks:
+      - nodevault-network
+    stdin_open: true
+    tty: true
+
+# Custom Bridge Network
+networks:
+  nodevault-network:
+    driver: bridge
+    name: nodevault-compose-network
+
+# Persistent Volume for MongoDB
+volumes:
+  mongodb-data:
+    driver: local
+    name: nodevault-mongodb-data
+\end{lstlisting}
+
+\subsection{Step 2: Update .env File}
+
+\begin{lstlisting}
+# MongoDB Connection String
+MONGODB_URI=mongodb://mongodb:27017/nodevault
+
+# Node Environment
+NODE_ENV=production
+\end{lstlisting}
+
+\subsection{Step 3: Stop Existing Containers}
+
+\begin{lstlisting}[language=bash]
+# Stop and remove manually created containers
+docker stop nodevault-app mongodb 2>/dev/null
+docker rm nodevault-app mongodb 2>/dev/null
+
+# Remove old network
+docker network rm nodevault-private-network 2>/dev/null
+\end{lstlisting}
+
+\subsection{Step 4: Start Services with Docker Compose}
+
+\begin{lstlisting}[language=bash]
+cd ~/Desktop/SCD\ Project/SCDProject25
+
+# Start all services
+docker-compose up -d
+
+# Or with build flag (if image needs rebuilding)
+docker-compose up -d --build
+\end{lstlisting}
+
+\textbf{SCREENSHOT 32: Docker Compose Up}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-24.png}
+\caption{Docker Compose Up}
+\end{figure}
+
+\subsection{Step 5: Verify Services are Running}
+
+\begin{lstlisting}[language=bash]
+# Check running containers
+docker-compose ps
+
+# Or use docker ps
+docker ps
+\end{lstlisting}
+
+\textbf{SCREENSHOT 33: Services Running}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-25.png}
+\caption{Services Running}
+\end{figure}
+
+\subsection{Step 7: Test the Application}
+
+\begin{lstlisting}[language=bash]
+# Attach to the backend container
+docker attach nodevault-backend
+
+# Or run interactively
+docker-compose exec backend node main.js
+\end{lstlisting}
+
+\textbf{SCREENSHOT 35: Application Working}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-26.png}
+\caption{Application Working}
+\end{figure}
+
+\subsection{Step 8: Verify Network and Volumes}
+
+\begin{lstlisting}[language=bash]
+# Check network
+docker network ls | grep nodevault
+
+# Check volumes
+docker volume ls | grep nodevault
+
+# Inspect network
+docker network inspect nodevault-compose-network
+\end{lstlisting}
+
+\textbf{SCREENSHOT 36: Network and Volumes}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-27.png}
+\caption{Network and Volumes}
+\end{figure}
+
+\subsection{Step 9: Stop Services}
+
+\begin{lstlisting}[language=bash]
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (careful - deletes data!)
+docker-compose down -v
+\end{lstlisting}
+
+\subsection{Docker Compose vs Manual Deployment Comparison}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Aspect} & \textbf{Manual CLI} & \textbf{Docker Compose} \\
+\hline
+Commands needed & 10+ commands & 1 command \\
+\hline
+Configuration & Flags in command line & YAML file \\
+\hline
+Reproducibility & Hard to reproduce & Easy - just share YAML \\
+\hline
+Network setup & Manual creation & Automatic \\
+\hline
+Volume setup & Manual creation & Automatic \\
+\hline
+Dependencies & Manual ordering & \texttt{depends\_on} handles it \\
+\hline
+Environment vars & Multiple \texttt{-e} flags & \texttt{.env} file \\
+\hline
+Maintenance & Edit commands & Edit YAML file \\
+\hline
+Team collaboration & Share commands & Share docker-compose.yml \\
+\hline
+\end{tabular}
+\caption{Docker Compose vs Manual Deployment Comparison}
+\end{table}
+
+\subsection{Benefits of Docker Compose}
+
+\begin{enumerate}
+    \item \textbf{Single Command Deployment:} \texttt{docker-compose up} starts everything
+    \item \textbf{Declarative Configuration:} All settings in one readable YAML file
+    \item \textbf{Automatic Networking:} Services can communicate by name
+    \item \textbf{Volume Management:} Persistent storage defined in config
+    \item \textbf{Environment Variables:} Loaded from \texttt{.env} file automatically
+    \item \textbf{Health Checks:} Ensures dependencies are ready before starting
+    \item \textbf{Easy Scaling:} Can scale services with \texttt{docker-compose up --scale}
+    \item \textbf{Version Control:} YAML file can be committed to git
+\end{enumerate}
+
+\subsection{Summary - Part 6}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Task} & \textbf{Status} \\
+\hline
+Created docker-compose.yml & \checkmark \\
+\hline
+Defined backend service & \checkmark \\
+\hline
+Defined database service & \checkmark \\
+\hline
+Configured custom network & \checkmark \\
+\hline
+Configured volumes & \checkmark \\
+\hline
+Used .env file & \checkmark \\
+\hline
+Services up with one command & \checkmark \\
+\hline
+\end{tabular}
+\caption{Part 6 Summary}
+\end{table}
+
+
+\section{Part 7: Update Project Repo to include Docker Compose}
+
+\subsection{Step 1: Update docker-compose.yml to Build from Dockerfile}
+
+The docker-compose.yml is updated to build the image from the Dockerfile instead of using a pre-built image:
+
+\begin{lstlisting}[language=yaml]
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:latest
+    container_name: nodevault-mongodb
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=nodevault
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - nodevault-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/nodevault --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NodeVault Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodevault:latest
+    container_name: nodevault-backend
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/nodevault
+      - NODE_ENV=production
+    networks:
+      - nodevault-network
+    stdin_open: true
+    tty: true
+
+# Custom Bridge Network
+networks:
+  nodevault-network:
+    driver: bridge
+    name: nodevault-compose-network
+
+# Persistent Volume for MongoDB
+volumes:
+  mongodb-data:
+    driver: local
+    name: nodevault-mongodb-data
+\end{lstlisting}
+
+\textbf{Key Change:} Added \texttt{build} section to backend service:
+\begin{lstlisting}[language=yaml]
+build:
+  context: .
+  dockerfile: Dockerfile
+\end{lstlisting}
+
+\subsection{Step 2: Clean Slate - Remove All Docker Images}
+
+\begin{lstlisting}[language=bash]
+# Stop all running containers
+docker compose down
+
+# Remove all unused containers, networks, images, and volumes
+docker system prune -a
+
+# Verify images are removed
+docker images
+\end{lstlisting}
+
+\textbf{WARNING:} \texttt{docker system prune -a} removes ALL unused Docker resources. Use with caution!
+
+\textbf{SCREENSHOT 37: Clean Slate}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-28.png}
+\caption{Clean Slate - Part 1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-29.png}
+\caption{Clean Slate - Part 2}
+\end{figure}
+
+\subsection{Step 3: Build and Run with Docker Compose}
+
+\begin{lstlisting}[language=bash]
+cd ~/Desktop/SCD\ Project/SCDProject25
+
+# Build and start all services
+docker compose up --build
+\end{lstlisting}
+
+\textbf{SCREENSHOT 38: Docker Build Process}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-30.png}
+\caption{Docker Build Process}
+\end{figure}
+
+\textbf{SCREENSHOT 39: Services Running}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-31.png}
+\caption{Services Running}
+\end{figure}
+
+\subsection{Step 4: Verify Application is Working}
+
+\begin{lstlisting}[language=bash]
+# In another terminal, check running containers
+docker ps
+
+# Attach to backend to use the application
+docker attach nodevault-backend
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-32.png}
+\caption{Running Containers}
+\end{figure}
+
+\textbf{SCREENSHOT 40: Application Functioning}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-33.png}
+\caption{Application Functioning - Part 1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{image-34.png}
+\caption{Application Functioning - Part 2}
+\end{figure}
+
+\subsection{Step 5: Create README.md}
+
+A README.md file has been created with:
+\begin{itemize}
+    \item Project description
+    \item Features list
+    \item Prerequisites
+    \item Quick start instructions
+    \item Docker commands
+    \item Project structure
+    \item Menu options
+\end{itemize}
+
+\subsection{Step 6: Commit and Push to GitHub}
+
+\begin{lstlisting}[language=bash]
+cd ~/Desktop/SCD\ Project/SCDProject25
+
+# Check current branch
+git branch
+
+# Switch to master if needed
+git checkout master
+
+# Merge feature branch (if not already merged)
+git merge feature/containerization
+
+# Stage all changes
+git add .
+
+# Commit
+git commit -m "Added Docker Compose with build configuration and README"
+
+# Create final version tag
+git tag -a v4.0 -m "Version 4.0: Complete Docker Compose setup"
+
+# Push to GitHub
+git push origin master
+
+# Push tags
+git push --tags
+\end{lstlisting}
+
+\textbf{SCREENSHOT 41: Git Commit and Push}
+\begin{itemize}
+    \item Take a screenshot showing the commit
+    \item Take a screenshot showing the push to GitHub
+\end{itemize}
+
+\subsection{Step 7: Verify on GitHub}
+
+Visit your GitHub repository to verify:
+\begin{itemize}
+    \item docker-compose.yml is present
+    \item Dockerfile is present
+    \item README.md is present
+    \item .env.example is present (not .env - it should be in .gitignore)
+\end{itemize}
+
+\textbf{SCREENSHOT 42: GitHub Repository}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{1image.png}
+\caption{GitHub Repository}
+\end{figure}
+
+\subsection{Files Committed}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{File} & \textbf{Description} \\
+\hline
+\texttt{docker-compose.yml} & Docker Compose configuration \\
+\hline
+\texttt{Dockerfile} & Docker image build instructions \\
+\hline
+\texttt{.dockerignore} & Files to exclude from Docker build \\
+\hline
+\texttt{README.md} & Project documentation \\
+\hline
+\texttt{.env.example} & Example environment variables \\
+\hline
+\texttt{.gitignore} & Git ignore rules \\
+\hline
+\texttt{main.js} & Main application with all features \\
+\hline
+\texttt{db/} & Database layer with MongoDB \\
+\hline
+\texttt{events/} & Event handling \\
+\hline
+\texttt{package.json} & Node.js dependencies \\
+\hline
+\end{tabular}
+\caption{Files Committed}
+\end{table}
+
+\subsection{Issues Encountered and Solutions}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{5cm}|p{9cm}|}
+\hline
+\textbf{Issue} & \textbf{Solution} \\
+\hline
+\texttt{docker-compose} command not found & Use \texttt{docker compose} (without hyphen) on newer Docker versions \\
+\hline
+Version attribute warning & Removed \texttt{version: '3.8'} as it's obsolete in newer Docker Compose \\
+\hline
+MongoDB health check & Added proper health check to ensure MongoDB is ready before backend starts \\
+\hline
+Interactive CLI in container & Added \texttt{stdin\_open: true} and \texttt{tty: true} for interactive mode \\
+\hline
+\end{tabular}
+\caption{Issues Encountered and Solutions}
+\end{table}
+
+\subsection{Summary - Part 7}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Task} & \textbf{Status} \\
+\hline
+Updated docker-compose.yml with build config & \checkmark \\
+\hline
+Cleaned Docker environment & \checkmark \\
+\hline
+Built images with docker compose up --build & \checkmark \\
+\hline
+Verified application working & \checkmark \\
+\hline
+Created README.md & \checkmark \\
+\hline
+Committed all changes & \checkmark \\
+\hline
+Pushed to GitHub & \checkmark \\
+\hline
+\end{tabular}
+\caption{Part 7 Summary}
+\end{table}
+
+\section{Final Project Summary}
+
+\subsection{All Parts Completed}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|c|}
+\hline
+\textbf{Part} & \textbf{Description} & \textbf{Status} \\
+\hline
+Part 3 & Feature Implementation (Search, Sort, Export, Backup, Stats, MongoDB) & \checkmark \\
+\hline
+Part 4 & Containerize Application & \checkmark \\
+\hline
+Part 5 & Manual Container Deployment & \checkmark \\
+\hline
+Part 6 & Docker Compose Setup & \checkmark \\
+\hline
+Part 7 & Update Repo with Docker Compose & \checkmark \\
+\hline
+\end{tabular}
+\caption{All Parts Completed}
+\end{table}
+
+\subsection{Technologies Used}
+
+\begin{itemize}
+    \item Node.js 18
+    \item MongoDB
+    \item Docker
+    \item Docker Compose
+    \item Git/GitHub
+\end{itemize}
+
+\subsection{Key Learnings}
+
+\begin{enumerate}
+    \item \textbf{Environment Consistency:} Docker ensures the same environment across development and production
+    \item \textbf{Container Orchestration:} Docker Compose simplifies multi-container deployments
+    \item \textbf{Data Persistence:} Volumes ensure data survives container restarts
+    \item \textbf{Network Isolation:} Private networks secure container communication
+    \item \textbf{Infrastructure as Code:} docker-compose.yml defines entire infrastructure
+\end{enumerate}
+
+\end{document}
